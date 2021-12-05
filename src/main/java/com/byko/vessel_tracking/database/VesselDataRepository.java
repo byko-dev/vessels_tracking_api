@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VesselDataRepository extends JpaRepository<VesselTrackingData, Long> {
+    VesselTrackingData findByShipNameAndMmsi(String shipName, int mmsi);
 }

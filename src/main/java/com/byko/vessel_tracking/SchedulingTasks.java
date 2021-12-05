@@ -111,12 +111,10 @@ public class SchedulingTasks {
                     .map(Coordinates::getCoordinateY)
                     .collect(Collectors.toList());
 
-            //update data existing ships
-            for(VesselTrackingData vesselTrackingData : vesselDataRepository.findAll()){
-                if(vesselTrackingData.getShipName() != null &&
-                        vesselTrackingData.getShipName().equals(track.getName()) &&
-                        vesselTrackingData.getMmsi() == track.getMmsi()){
+            if(track.getName() != null){
+                VesselTrackingData vesselTrackingData = vesselDataRepository.findByShipNameAndMmsi(track.getName(), track.getMmsi());
 
+                if(vesselTrackingData != null){
                     vesselTrackingData.setCoordinateY(track.getGeometry().getCoordinates().get(1));
                     vesselTrackingData.setCoordinateX(track.getGeometry().getCoordinates().get(0));
                     vesselTrackingData.setCoordinatesX(coordinatesX);
@@ -129,7 +127,7 @@ public class SchedulingTasks {
                     vesselTrackingData.setLastUpdate(Utils.setDate());
 
                     vesselDataRepository.save(vesselTrackingData);
-                }else if(vesselTrackingData.getShipName() != null){
+                }else{
                     //save to base new ship
                     vesselDataRepository.save(new VesselTrackingData(track.getName(),
                             track.getDestination(),
