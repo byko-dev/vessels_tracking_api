@@ -24,7 +24,15 @@
 - [Weather api => https://weatherstack.com](https://weatherstack.com)
 - [Geolocation data => https://positionstack.com/](https://positionstack.com/)
 
-#### Technologies used
+#### Application endpoints
+1. [/vessels/data](http://34.118.67.174/api/vessels/data)
+    - method = `GET`
+    - returns json with details about weather in local port
+3. [/local/weather](http://34.118.67.174/api/local/weather)
+    - method = `GET`
+    - returns json with all updated vessels tracking data
+
+#### Technologies used:
 1. PostgreSQL
 2. Docker, docker-compose
 3. Spring boot, Hibernate
@@ -64,3 +72,5 @@ networks:
     name: vessels_network
     driver: bridge
 ```
+
+`Developed by byko-dev 2021`
