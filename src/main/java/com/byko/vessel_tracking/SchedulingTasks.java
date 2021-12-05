@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @EnableScheduling
 public class SchedulingTasks {
 
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();
     private VesselDataRepository vesselDataRepository;
     private TokenRepository tokenRepository;
     private ApiRepository  apiRepository;
@@ -30,7 +30,6 @@ public class SchedulingTasks {
 
     public SchedulingTasks(VesselDataRepository vesselDataRepository, TokenRepository tokenRepository,
                            ApiRepository apiRepository, WeatherDataRepository weatherDataRepository){
-        restTemplate = new RestTemplate();
         this.vesselDataRepository = vesselDataRepository;
         this.tokenRepository = tokenRepository;
         this.apiRepository = apiRepository;
@@ -130,29 +129,28 @@ public class SchedulingTasks {
                     vesselTrackingData.setLastUpdate(Utils.setDate());
 
                     vesselDataRepository.save(vesselTrackingData);
+                }else if(vesselTrackingData.getShipName() != null){
+                    //save to base new ship
+                    vesselDataRepository.save(new VesselTrackingData(track.getName(),
+                            track.getDestination(),
+                            track.getCountry(),
+                            track.getEta(),
+                            track.getGeometry().getCoordinates().get(0),
+                            track.getGeometry().getCoordinates().get(1),
+                            track.getCallsign(),
+                            destinationCoordinates.getCoordinateX(),
+                            destinationCoordinates.getCoordinateY(),
+                            track.isSurvey(),
+                            track.getImo(),
+                            track.getShipType(),
+                            track.getMmsi(),
+                            track.getDraught(),
+                            coordinatesX,
+                            coordinatesY,
+                            Utils.setDate()));
                 }
             }
-
-            //save to base new ship
-            vesselDataRepository.save(new VesselTrackingData(track.getName(),
-                    track.getDestination(),
-                    track.getCountry(),
-                    track.getEta(),
-                    track.getGeometry().getCoordinates().get(0),
-                    track.getGeometry().getCoordinates().get(1),
-                    track.getCallsign(),
-                    destinationCoordinates.getCoordinateX(),
-                    destinationCoordinates.getCoordinateY(),
-                    track.isSurvey(),
-                    track.getImo(),
-                    track.getShipType(),
-                    track.getMmsi(),
-                    track.getDraught(),
-                    coordinatesX,
-                    coordinatesY,
-                    Utils.setDate()));
         }
-
         System.out.println(Utils.setDate() + " => vesselTrackingUpdated");
     }
 
