@@ -1,5 +1,4 @@
 # Norwegian sea vessels tracker - backend
-### Link to web application: [http://vesseltracker.pl/](http://34.118.67.174/)
 #### Link to frontend of this app: [https://github.com/byko-dev/vessel_tracking_react](https://github.com/byko-dev/vessel_tracking_react)
 
 #### How to deploy this web application
